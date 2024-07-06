@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Player.Input
 {
@@ -9,14 +11,13 @@ namespace Player.Input
         private Button _interactButton;
         private bool _isButtonPressed;
 
-        private void Awake()
+        [Inject]
+        public InputHandlerMobile(Button interactButton, FloatingJoystick joystick)
         {
+            _interactButton = interactButton;
             _interactButton.onClick.AddListener(SetIsButtonPressed);
-        }
 
-        private void OnDestroy()
-        {
-            _interactButton.onClick.RemoveListener(SetIsButtonPressed);
+            _joystick = joystick;
         }
 
         public Vector2 GetMoveInput()
