@@ -4,9 +4,11 @@ namespace Movement
 {
     public class MovementComponent : MonoBehaviour
     {
-        public void MoveDirection()
+        [SerializeField] private float _movementSpeed;
+         
+        public void MoveDirection(Vector3 direction)
         {
-            
+            transform.position += direction * _movementSpeed * Time.deltaTime;
         }
     }
 }

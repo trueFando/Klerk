@@ -21,8 +21,8 @@ namespace Player.Input
 
         public Vector2 GetMoveInput()
         {
-            float x = _joystick.Horizontal;
-            float y = _joystick.Vertical;
+            var x = _joystick.Horizontal;
+            var y = _joystick.Vertical;
 
             return new Vector2(x, y).normalized;
         }
