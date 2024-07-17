@@ -1,5 +1,4 @@
-﻿using System;
-using Movement;
+﻿using Movement;
 using UnityEngine;
 using VContainer;
 
@@ -19,7 +18,6 @@ namespace Player.Input
         private void Construct(IInputHandler inputHandler)
         {
             _inputHandler = inputHandler;
-            Debug.Log(_inputHandler.GetType());
         }
 
         private void Update()

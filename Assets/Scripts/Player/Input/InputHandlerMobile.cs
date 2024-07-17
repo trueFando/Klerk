@@ -1,22 +1,18 @@
-﻿using System;
+﻿using Common.UI;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace Player.Input
 {
     public class InputHandlerMobile : IInputHandler
     {
-        private FloatingJoystick _joystick;
-        private Button _interactButton;
-        private bool _isButtonPressed;
-
+        private readonly FloatingJoystick _joystick;
+        private readonly CustomButton _interactButton;
+        
         [Inject]
-        public InputHandlerMobile(Button interactButton, FloatingJoystick joystick)
+        public InputHandlerMobile(CustomButton interactButton, FloatingJoystick joystick)
         {
             _interactButton = interactButton;
-            _interactButton.onClick.AddListener(SetIsButtonPressed);
-
             _joystick = joystick;
         }
 
@@ -30,12 +26,7 @@ namespace Player.Input
 
         public bool GetInteractInput()
         {
-            return _isButtonPressed;
-        }
-
-        private void SetIsButtonPressed()
-        {
-            _isButtonPressed = !_isButtonPressed;
+            return _interactButton.IsPressed;
         }
     }
 }
