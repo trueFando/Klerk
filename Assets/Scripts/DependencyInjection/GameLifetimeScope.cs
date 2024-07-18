@@ -1,9 +1,12 @@
 using Common.UI;
+using InteractiveObject.Component;
+using InteractiveObject.Handler;
+using InteractiveObject.Handler.Abstract;
+using InteractiveObject.Handler.Resolver;
 using Player.Input;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using UnityEngine.Device;
 
 namespace DependencyInjection
 {
@@ -30,12 +33,21 @@ namespace DependencyInjection
                 case DeviceType.Console:
                 default:
                     Debug.LogError("Not supported device");
-                    UnityEngine.Application.Quit();
+                    Application.Quit();
                     break;
             }
 
             builder.RegisterComponent(_interactButton);
             builder.RegisterComponent(_joystick);
+            
+            // Interacting objects
+            
+            builder.Register<AInteractingHandler, StayInteractingHandler>(Lifetime.Transient);
+            builder.Register<AInteractingHandler, TapInteractingHandler>(Lifetime.Transient);
+            builder.Register<AInteractingHandler, HoldInteractingHandler>(Lifetime.Transient);
+            
+            builder.Register<IInteractingHandlerResolver, InteractingHandleResolver>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<InteractiveObjectComponent>();
         }
     }
 }
