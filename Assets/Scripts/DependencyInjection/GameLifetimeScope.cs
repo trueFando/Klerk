@@ -1,8 +1,6 @@
 using Common.UI;
-using InteractiveObject.Component;
 using InteractiveObject.Handler;
-using InteractiveObject.Handler.Abstract;
-using InteractiveObject.Handler.Resolver;
+using InteractiveObject.Resolver;
 using Player.Input;
 using UnityEngine;
 using VContainer;
@@ -42,12 +40,11 @@ namespace DependencyInjection
             
             // Interacting objects
             
-            builder.Register<AInteractingHandler, StayInteractingHandler>(Lifetime.Transient);
-            builder.Register<AInteractingHandler, TapInteractingHandler>(Lifetime.Transient);
-            builder.Register<AInteractingHandler, HoldInteractingHandler>(Lifetime.Transient);
+            builder.Register<StayInteractingHandler>(Lifetime.Transient);
+            builder.Register<TapInteractingHandler>(Lifetime.Transient);
+            builder.Register<HoldInteractingHandler>(Lifetime.Transient);
             
-            builder.Register<IInteractingHandlerResolver, InteractingHandleResolver>(Lifetime.Singleton);
-            builder.RegisterComponentInHierarchy<InteractiveObjectComponent>();
+            builder.Register<IInteractingHandlerResolver, InteractingHandleResolver>(Lifetime.Transient);
         }
     }
 }

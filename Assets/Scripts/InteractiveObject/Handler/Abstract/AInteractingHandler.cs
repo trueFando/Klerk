@@ -13,7 +13,7 @@ namespace InteractiveObject.Handler.Abstract
             _inputHandler = inputHandler;
         }
 
-        public abstract bool IsValid();
+        public abstract float CalculateProgress(float oldValue, float deltaValue);
 
         public abstract float IncreaseProgress(float oldValue, float deltaValue);
 

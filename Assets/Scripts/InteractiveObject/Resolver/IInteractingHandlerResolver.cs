@@ -1,7 +1,7 @@
 ﻿using InteractiveObject.Enum;
 using InteractiveObject.Handler.Abstract;
 
-namespace InteractiveObject.Handler.Resolver
+namespace InteractiveObject.Resolver
 {
     public interface IInteractingHandlerResolver
     {

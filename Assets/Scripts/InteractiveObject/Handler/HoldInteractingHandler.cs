@@ -12,22 +12,20 @@ namespace InteractiveObject.Handler
         {
         }
 
-        public override bool IsValid()
+        public override float CalculateProgress(float oldValue, float deltaValue)
         {
-            return _inputHandler.GetInteractInput();
+            return _inputHandler.GetInteractInput() 
+                ? IncreaseProgress(oldValue, deltaValue)
+                : DecreaseProgress(oldValue, deltaValue);
         }
-
+        
         public override float IncreaseProgress(float oldValue, float deltaValue)
         {
-            if (!IsValid()) return oldValue;
-
             return oldValue + deltaValue * Time.deltaTime;
         }
 
         public override float DecreaseProgress(float oldValue, float deltaValue)
         {
-            if (!IsValid()) return oldValue;
-
             return oldValue - deltaValue * Time.deltaTime;
         }
     }

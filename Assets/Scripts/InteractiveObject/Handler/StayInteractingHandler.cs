@@ -11,10 +11,10 @@ namespace InteractiveObject.Handler
         public StayInteractingHandler(IInputHandler inputHandler) : base(inputHandler)
         {
         }
-        
-        public override bool IsValid()
+
+        public override float CalculateProgress(float oldValue, float deltaValue)
         {
-            return true;
+            return IncreaseProgress(oldValue, deltaValue);
         }
 
         public override float IncreaseProgress(float oldValue, float deltaValue)

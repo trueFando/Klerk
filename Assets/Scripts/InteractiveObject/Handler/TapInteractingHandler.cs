@@ -1,5 +1,6 @@
 ﻿using InteractiveObject.Handler.Abstract;
 using Player.Input;
+using UnityEngine;
 using VContainer;
 
 namespace InteractiveObject.Handler
@@ -12,33 +13,36 @@ namespace InteractiveObject.Handler
         public TapInteractingHandler(IInputHandler inputHandler) : base(inputHandler)
         {
         }
-        
-        public override bool IsValid()
+
+        public override float CalculateProgress(float oldValue, float deltaValue)
         {
             if (_isPointerUp)
             {
                 if (_inputHandler.GetInteractInput())
                 {
                     _isPointerUp = false;
-                    return _inputHandler.GetInteractInput();
+                    return IncreaseProgress(oldValue, deltaValue);
+                }
+            }
+            else
+            {
+                if (!_inputHandler.GetInteractInput())
+                {
+                    _isPointerUp = true;
                 }
             }
 
-            return false;
+            return DecreaseProgress(oldValue, deltaValue);
         }
 
         public override float IncreaseProgress(float oldValue, float deltaValue)
         {
-            if (!IsValid()) return oldValue;
-            
             return oldValue + deltaValue;
         }
 
         public override float DecreaseProgress(float oldValue, float deltaValue)
         {
-            if (!IsValid()) return oldValue;
-            
-            return oldValue - deltaValue;
+            return oldValue - deltaValue * Time.deltaTime;
         }
     }
 }
