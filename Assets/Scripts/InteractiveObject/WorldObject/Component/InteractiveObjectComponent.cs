@@ -1,4 +1,5 @@
-﻿using InteractiveObject.WorldObject.Enum;
+﻿using System;
+using InteractiveObject.WorldObject.Enum;
 using InteractiveObject.WorldObject.Handler.Abstract;
 using InteractiveObject.WorldObject.Resolver;
 using UnityEngine;
@@ -13,13 +14,18 @@ namespace InteractiveObject.WorldObject.Component
         [SerializeField] private InteractiveObjectType _type;
         
         private float _progressValue = 0f;
-        
         [Header("Progress")] 
         [SerializeField] private float _deltaProgressValue;
 
         private bool _isHandlingInteracting;
-
         private AInteractingHandler _interactingHandler;
+
+        private bool _isActive;
+
+        private void Awake()
+        {
+            SetActive(true);
+        }
 
         [Inject]
         public void Construct(IInteractingHandlerResolver handlerResolver)
@@ -29,17 +35,34 @@ namespace InteractiveObject.WorldObject.Component
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!_isActive) return;
+            
             _isHandlingInteracting = true;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (!_isActive) return;
+            
             _isHandlingInteracting = false;
         }
 
         private void Update()
         {
+            if (!_isActive) return;
+            
             CalculateProgressValue();
+        }
+
+        public void SetActive(bool active)
+        {
+            ResetAll();
+            _isActive = active;
+        }
+
+        private void ResetAll()
+        {
+            _progressValue = 0f;
         }
 
         private void CalculateProgressValue()
