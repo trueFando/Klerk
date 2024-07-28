@@ -1,4 +1,5 @@
 ﻿using System;
+using InteractiveObject.UIObject.Interface;
 using InteractiveObject.WorldObject.Enum;
 using InteractiveObject.WorldObject.Handler.Abstract;
 using InteractiveObject.WorldObject.Resolver;
@@ -18,7 +19,10 @@ namespace InteractiveObject.WorldObject.Component
         [SerializeField] private float _deltaProgressValue;
 
         private bool _isHandlingInteracting;
+        
+        // dependencies
         private AInteractingHandler _interactingHandler;
+        private IInteractiveObjectUI _uiObject;
 
         private bool _isActive;
 
@@ -28,9 +32,10 @@ namespace InteractiveObject.WorldObject.Component
         }
 
         [Inject]
-        public void Construct(IInteractingHandlerResolver handlerResolver)
+        public void Construct(IInteractingHandlerResolver handlerResolver, IInteractiveObjectUI uiObject)
         {
             _interactingHandler = handlerResolver.ResolveHandler(_type);
+            _uiObject = uiObject;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

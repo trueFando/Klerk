@@ -1,4 +1,6 @@
 using Common.UI;
+using InteractiveObject.UIObject.Component;
+using InteractiveObject.UIObject.Interface;
 using InteractiveObject.WorldObject.Handler;
 using InteractiveObject.WorldObject.Resolver;
 using Player.Input;
@@ -13,6 +15,7 @@ namespace DependencyInjection
         [Header("Dependencies")]
         [SerializeField] private CustomButton _interactButton;
         [SerializeField] private FloatingJoystick _joystick;
+        [SerializeField] private InteractiveObjectUIComponent _interactiveObjectUI;
         [Header("Other")]
         [SerializeField] private Canvas _controlsCanvas;
 
@@ -45,6 +48,7 @@ namespace DependencyInjection
             builder.Register<HoldInteractingHandler>(Lifetime.Transient);
             
             builder.Register<IInteractingHandlerResolver, InteractingHandleResolver>(Lifetime.Transient);
+            builder.RegisterComponentInNewPrefab(_interactiveObjectUI, Lifetime.Transient).As<IInteractiveObjectUI>();
         }
     }
 }

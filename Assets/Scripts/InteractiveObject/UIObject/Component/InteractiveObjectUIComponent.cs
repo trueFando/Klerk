@@ -1,10 +1,11 @@
-﻿using TMPro;
+﻿using InteractiveObject.UIObject.Interface;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace InteractiveObject.UIObject.Component
 {
-    public class InteractiveObjectUIComponent : MonoBehaviour
+    public class InteractiveObjectUIComponent : MonoBehaviour, IInteractiveObjectUI
     {
         [Header("UI")]
         [SerializeField] private TextMeshProUGUI _taskNameUI;
@@ -40,6 +41,26 @@ namespace InteractiveObject.UIObject.Component
         {
             // todo implement
             return string.Empty;
+        }
+
+        public void SetProgressbarValue(float currentValue, float maxValue)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Animate(float currentValue, float maxValue)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ShowSuccess()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ShowFail()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -550,6 +550,7 @@ MonoBehaviour:
   - {fileID: 1107395724}
   _interactButton: {fileID: 1878901607}
   _joystick: {fileID: 1293140715}
+  _interactiveObjectUI: {fileID: 7729416192773434488, guid: b2e34507d5390ba4e84360baf648cef6, type: 3}
   _controlsCanvas: {fileID: 583201427}
 --- !u!4 &1319761398
 Transform:
