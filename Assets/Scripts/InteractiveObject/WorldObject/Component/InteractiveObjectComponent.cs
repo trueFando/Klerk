@@ -22,7 +22,9 @@ namespace InteractiveObject.WorldObject.Component
         
         // dependencies
         private AInteractingHandler _interactingHandler;
-        private IInteractiveObjectUI _uiObject;
+        
+        // ui must be a child so no need to register as dependency 
+        [SerializeField] private IInteractiveObjectUI _uiObject;
 
         private bool _isActive;
 
@@ -32,10 +34,9 @@ namespace InteractiveObject.WorldObject.Component
         }
 
         [Inject]
-        public void Construct(IInteractingHandlerResolver handlerResolver, IInteractiveObjectUI uiObject)
+        public void Construct(IInteractingHandlerResolver handlerResolver)
         {
             _interactingHandler = handlerResolver.ResolveHandler(_type);
-            _uiObject = uiObject;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
