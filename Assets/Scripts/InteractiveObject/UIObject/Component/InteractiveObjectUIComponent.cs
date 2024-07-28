@@ -1,4 +1,5 @@
-﻿using InteractiveObject.UIObject.Interface;
+﻿using System;
+using InteractiveObject.UIObject.Interface;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,7 +56,7 @@ namespace InteractiveObject.UIObject.Component
 
         public void ShowSuccess()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Task is done!");
         }
 
         public void ShowFail()

@@ -1,4 +1,5 @@
 ﻿using System;
+using Helper;
 using InteractiveObject.UIObject.Interface;
 using InteractiveObject.WorldObject.Enum;
 using InteractiveObject.WorldObject.Handler.Abstract;
@@ -11,25 +12,30 @@ namespace InteractiveObject.WorldObject.Component
     [RequireComponent(typeof(Collider2D))]
     public class InteractiveObjectComponent : MonoBehaviour
     {
-        [Header("Type")] 
-        [SerializeField] private InteractiveObjectType _type;
-        
+        [Header("Type")] [SerializeField] private InteractiveObjectType _type;
+
         private float _progressValue = 0f;
-        [Header("Progress")] 
-        [SerializeField] private float _deltaProgressValue;
+        [Header("Progress")] [SerializeField] private float _deltaProgressValue;
+        [SerializeField] private float _maxValue = 100f;
 
         private bool _isHandlingInteracting;
-        
+
         // dependencies
         private AInteractingHandler _interactingHandler;
-        
+
         // ui must be a child so no need to register as dependency 
-        [SerializeField] private IInteractiveObjectUI _uiObject;
+        private IInteractiveObjectUI _uiObject;
 
         private bool _isActive;
 
         private void Awake()
         {
+            _uiObject = GetComponentInChildren<IInteractiveObjectUI>();
+            if (_uiObject is null)
+            {
+                Debug.LogError($"No uiObject for {name} provided");
+            }
+            
             SetActive(true);
         }
 
@@ -42,21 +48,21 @@ namespace InteractiveObject.WorldObject.Component
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!_isActive) return;
-            
+
             _isHandlingInteracting = true;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!_isActive) return;
-            
+
             _isHandlingInteracting = false;
         }
 
         private void Update()
         {
             if (!_isActive) return;
-            
+
             CalculateProgressValue();
         }
 
@@ -78,6 +84,17 @@ namespace InteractiveObject.WorldObject.Component
                 : _interactingHandler.DecreaseProgress(_progressValue, _deltaProgressValue);
 
             _progressValue = Mathf.Clamp(_progressValue, 0f, 100f);
+
+            CheckIfDone();
+        }
+
+        private void CheckIfDone()
+        {
+            if (Mathf.Abs(_progressValue - _maxValue) < StaticValues.FloatComparisonMaxError)
+            {
+                SetActive(false);
+                _uiObject.ShowSuccess();
+            }
         }
     }
 }
