@@ -1,7 +1,7 @@
 ﻿using Player.Input;
 using VContainer;
 
-namespace InteractiveObject.WorldObject.Handler.Abstract
+namespace InteractiveObject.Handler.Abstract
 {
     public abstract class AInteractingHandler
     {

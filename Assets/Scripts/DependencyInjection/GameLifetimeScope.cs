@@ -1,8 +1,6 @@
 using Common.UI;
-using InteractiveObject.UIObject.Component;
-using InteractiveObject.UIObject.Interface;
-using InteractiveObject.WorldObject.Handler;
-using InteractiveObject.WorldObject.Resolver;
+using InteractiveObject.Handler;
+using InteractiveObject.Handler.Resolver;
 using Player.Input;
 using UnityEngine;
 using VContainer;

@@ -1,9 +1,8 @@
-﻿using System;
-using Helper;
-using InteractiveObject.UIObject.Interface;
+﻿using Helper;
+using InteractiveObject.Handler.Abstract;
+using InteractiveObject.Handler.Resolver;
+using InteractiveObject.Model;
 using InteractiveObject.WorldObject.Enum;
-using InteractiveObject.WorldObject.Handler.Abstract;
-using InteractiveObject.WorldObject.Resolver;
 using UnityEngine;
 using VContainer;
 
@@ -12,30 +11,35 @@ namespace InteractiveObject.WorldObject.Component
     [RequireComponent(typeof(Collider2D))]
     public class InteractiveObjectComponent : MonoBehaviour
     {
-        [Header("Type")] [SerializeField] private InteractiveObjectType _type;
+        /// <summary>
+        /// Entity data.
+        /// </summary>
+        [SerializeField] private InteractiveObjectModel _model = new();
 
-        private float _progressValue = 0f;
-        [Header("Progress")] [SerializeField] private float _deltaProgressValue;
-        [SerializeField] private float _maxValue = 100f;
+        /// <summary>
+        /// Type of interactive object.
+        /// </summary>
+        [Header("Type")] 
+        [SerializeField] private InteractiveObjectType _type;
 
-        private bool _isHandlingInteracting;
-
-        // dependencies
+        /// <summary>
+        /// Handler defines progress Increase/Decrease methods.
+        /// Will be resolved by [injected] IObjectResolver's inheritor according to _type.
+        /// </summary>
         private AInteractingHandler _interactingHandler;
 
-        // ui must be a child so no need to register as dependency 
-        private IInteractiveObjectUI _uiObject;
-
+        /// <summary>
+        /// Is the component active (i.e., does it listen to world events)?
+        /// </summary>
         private bool _isActive;
+        
+        /// <summary>
+        /// Is someone interacting with the component right now?
+        /// </summary>
+        private bool _isHandlingInteracting;
 
         private void Awake()
         {
-            _uiObject = GetComponentInChildren<IInteractiveObjectUI>();
-            if (_uiObject is null)
-            {
-                Debug.LogError($"No uiObject for {name} provided");
-            }
-            
             SetActive(true);
         }
 
@@ -66,7 +70,7 @@ namespace InteractiveObject.WorldObject.Component
             CalculateProgressValue();
         }
 
-        public void SetActive(bool active)
+        private void SetActive(bool active)
         {
             ResetAll();
             _isActive = active;
@@ -74,26 +78,25 @@ namespace InteractiveObject.WorldObject.Component
 
         private void ResetAll()
         {
-            _progressValue = 0f;
+            _model.Progress = 0f;
         }
 
         private void CalculateProgressValue()
         {
-            _progressValue = _isHandlingInteracting
-                ? _interactingHandler.CalculateProgress(_progressValue, _deltaProgressValue)
-                : _interactingHandler.DecreaseProgress(_progressValue, _deltaProgressValue);
-
-            _progressValue = Mathf.Clamp(_progressValue, 0f, 100f);
+            _model.Progress = _isHandlingInteracting
+                ? _interactingHandler.CalculateProgress(_model.Progress, _model.ProgressDelta)
+                : _interactingHandler.DecreaseProgress(_model.Progress, _model.ProgressDelta);
 
             CheckIfDone();
         }
 
         private void CheckIfDone()
         {
-            if (Mathf.Abs(_progressValue - _maxValue) < StaticValues.FloatComparisonMaxError)
+            if (Mathf.Abs(_model.ProgressDelta - _model.ProgressMax) < StaticValues.FloatComparisonMaxError)
             {
                 SetActive(false);
-                _uiObject.ShowSuccess();
+                
+                // events invoke
             }
         }
     }

@@ -1,43 +1,31 @@
-﻿using System;
-using InteractiveObject.UIObject.Interface;
+﻿using InteractiveObject.UIObject.Interface;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace InteractiveObject.UIObject.Component
+namespace InteractiveObject.UIOverlayObject.Component
 {
-    public class InteractiveObjectUIComponent : MonoBehaviour, IInteractiveObjectUI
+    public class InteractiveObjectUIOverlayComponent : MonoBehaviour, IInteractiveObjectUI
     {
         [Header("UI")]
         [SerializeField] private TextMeshProUGUI _taskNameUI;
         [SerializeField] private TextMeshProUGUI _taskTimerUI;
         [SerializeField] private TextMeshProUGUI _taskPenaltyUI;
-        [SerializeField] private Image _taskImageUI;
+        [SerializeField] private TextMeshProUGUI _taskRewardUI;
         [SerializeField] private Image _taskProgressBarUI;
 
-        private string _taskName;
-        private float _taskFullTime;
-        private float _taskPenalty;
-        private Sprite _taskImage;
-
-        public void Setup(string name, float fullTime, float penalty, Sprite image)
+        public void Setup(string name, float fullTime, float penalty)
         {
-            _taskName = name;
-            _taskNameUI.text = _taskName;
-            
-            _taskFullTime = fullTime;
-            _taskTimerUI.text = FormatTimeToMinutesAndSeconds(_taskFullTime);
-            
-            _taskPenalty = penalty;
-            _taskPenaltyUI.text = $"-{_taskPenalty}";
-            
-            _taskImage = image;
-            _taskImageUI.sprite = _taskImage;
+            _taskNameUI.text = name;
+            _taskTimerUI.text = FormatTimeToMinutesAndSeconds(fullTime);
+            _taskPenaltyUI.text = $"-{penalty}";
         }
 
-        /**
-         * Get time format MM:SS
-         */
+        /// <summary>
+        ///  Get time as string.
+        /// </summary>
+        /// <param name="seconds">Total count of seconds</param>
+        /// <returns>Time in format MM:SS</returns>
         private string FormatTimeToMinutesAndSeconds(float seconds)
         {
             // todo implement

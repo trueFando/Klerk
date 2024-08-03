@@ -1,10 +1,9 @@
 ﻿using System;
+using InteractiveObject.Handler.Abstract;
 using InteractiveObject.WorldObject.Enum;
-using InteractiveObject.WorldObject.Handler;
-using InteractiveObject.WorldObject.Handler.Abstract;
 using VContainer;
 
-namespace InteractiveObject.WorldObject.Resolver
+namespace InteractiveObject.Handler.Resolver
 {
     public class InteractingHandleResolver : IInteractingHandlerResolver
     {

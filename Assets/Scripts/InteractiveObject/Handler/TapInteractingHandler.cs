@@ -1,9 +1,9 @@
-﻿using InteractiveObject.WorldObject.Handler.Abstract;
+﻿using InteractiveObject.Handler.Abstract;
 using Player.Input;
 using UnityEngine;
 using VContainer;
 
-namespace InteractiveObject.WorldObject.Handler
+namespace InteractiveObject.Handler
 {
     public class TapInteractingHandler : AInteractingHandler
     {
