@@ -134,3 +134,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 2
+  _tasksParent: {fileID: 0}
+  uiOverlayOverlayPrefab: {fileID: 2739155613936873746, guid: 64de606acd31ce447ae21807b75181e8, type: 3}

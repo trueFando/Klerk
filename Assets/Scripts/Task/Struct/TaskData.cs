@@ -2,12 +2,14 @@
 {
     public struct TaskData
     {
+        public readonly string Name;
         public readonly float FullTime;
         public readonly int Reward;
         public readonly int Penalty;
         
-        public TaskData(float fullTime, int reward, int penalty)
+        public TaskData(string name, float fullTime, int reward, int penalty)
         {
+            Name = name;
             FullTime = fullTime;
             Reward = reward;
             Penalty = penalty;

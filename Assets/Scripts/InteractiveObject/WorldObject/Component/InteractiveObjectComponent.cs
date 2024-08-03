@@ -2,9 +2,11 @@
 using InteractiveObject.Handler.Abstract;
 using InteractiveObject.Handler.Resolver;
 using InteractiveObject.Model;
+using InteractiveObject.UIOverlayObject.Component;
 using InteractiveObject.WorldObject.Enum;
 using Task.Struct;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace InteractiveObject.WorldObject.Component
@@ -20,7 +22,7 @@ namespace InteractiveObject.WorldObject.Component
         /// <summary>
         /// Type of interactive object.
         /// </summary>
-        [Header("Type")] 
+        [Header("Type")]
         [SerializeField] private InteractiveObjectType _type;
 
         /// <summary>
@@ -38,6 +40,16 @@ namespace InteractiveObject.WorldObject.Component
         /// Is someone interacting with the component right now?
         /// </summary>
         private bool _isHandlingInteracting;
+
+        /// <summary>
+        /// UI object used as parent for tasks.
+        /// </summary>
+        [SerializeField] private RectTransform _tasksParent;
+
+        /// <summary>
+        /// Prefab of UI overlay object.
+        /// </summary>
+        [SerializeField] private InteractiveObjectUIOverlayOverlayComponent uiOverlayOverlayPrefab;
 
         private void Awake()
         {
@@ -73,6 +85,13 @@ namespace InteractiveObject.WorldObject.Component
 
         public void SetupForNewTask(TaskData taskData)
         {
+            // create uioverlay object
+            var uiOverlayObj = Instantiate(uiOverlayOverlayPrefab, _tasksParent);
+            
+            // subscribe it to model's events
+            _model.OnTaskUpdate += uiOverlayObj.Setup;
+            _model.OnProgressUpdate += uiOverlayObj.SetProgressbarValue;
+            
             _model.TaskData = taskData;
             SetActive(true);
         }

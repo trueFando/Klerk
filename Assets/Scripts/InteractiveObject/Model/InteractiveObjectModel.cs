@@ -37,11 +37,12 @@ namespace InteractiveObject.Model
             get => _taskData;
             set
             {
+                var name = value.Name != string.Empty ? value.Name : "Interesting task";
                 var fullTime = Mathf.Clamp(value.FullTime, 0f, MaxFullTime);
                 var reward = Mathf.Max(value.Reward, 0);
                 var penalty = Mathf.Max(value.Penalty, 0);
                 
-                _taskData = new TaskData(fullTime, reward, penalty);
+                _taskData = new TaskData(name, fullTime, reward, penalty);
                 
                 OnTaskUpdate?.Invoke(_taskData);
             }
