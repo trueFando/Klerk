@@ -3,6 +3,7 @@ using InteractiveObject.Handler.Abstract;
 using InteractiveObject.Handler.Resolver;
 using InteractiveObject.Model;
 using InteractiveObject.WorldObject.Enum;
+using Task.Struct;
 using UnityEngine;
 using VContainer;
 
@@ -68,6 +69,12 @@ namespace InteractiveObject.WorldObject.Component
             if (!_isActive) return;
 
             CalculateProgressValue();
+        }
+
+        public void SetupForNewTask(TaskData taskData)
+        {
+            _model.TaskData = taskData;
+            SetActive(true);
         }
 
         private void SetActive(bool active)

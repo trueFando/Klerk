@@ -14,6 +14,8 @@ namespace InteractiveObject.UIOverlayObject.Component
         [SerializeField] private TextMeshProUGUI _taskRewardUI;
         [SerializeField] private Image _taskProgressBarUI;
 
+        private float _fullTime;
+        
         public void Setup(string name, float fullTime, float penalty)
         {
             _taskNameUI.text = name;

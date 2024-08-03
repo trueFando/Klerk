@@ -1,4 +1,5 @@
 ﻿using System;
+using Task.Struct;
 using UnityEngine;
 
 namespace InteractiveObject.Model
@@ -6,10 +7,15 @@ namespace InteractiveObject.Model
     [Serializable]
     public class InteractiveObjectModel
     {
-        public event Action<float> OnProgressChange;
-
-        private const float _maxProgressValue = 100f;
-        private const float _deltaProgressValue = 5f;
+        private const float MaxProgressValue = 100f;
+        private const float DeltaProgressValue = 5f;
+        private const float MaxFullTime = 120f;
+        
+        public float ProgressDelta => DeltaProgressValue;
+        public float ProgressMax => MaxProgressValue;
+        
+        public event Action<float> OnProgressUpdate;
+        public event Action<TaskData> OnTaskUpdate;
         
         private float _progressValue;
         
@@ -18,14 +24,27 @@ namespace InteractiveObject.Model
             get => _progressValue;
             set
             {
-                _progressValue = Mathf.Clamp(value, 0f, _maxProgressValue);
+                _progressValue = Mathf.Clamp(value, 0f, MaxProgressValue);
                 
-                OnProgressChange?.Invoke(_progressValue);
+                OnProgressUpdate?.Invoke(_progressValue);
             }
         }
 
-        public float ProgressDelta => _deltaProgressValue;
+        private TaskData _taskData;
 
-        public float ProgressMax => _maxProgressValue;
+        public TaskData TaskData
+        {
+            get => _taskData;
+            set
+            {
+                var fullTime = Mathf.Clamp(value.FullTime, 0f, MaxFullTime);
+                var reward = Mathf.Max(value.Reward, 0);
+                var penalty = Mathf.Max(value.Penalty, 0);
+                
+                _taskData = new TaskData(fullTime, reward, penalty);
+                
+                OnTaskUpdate?.Invoke(_taskData);
+            }
+        }
     }
 }
