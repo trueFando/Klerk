@@ -12,7 +12,7 @@ namespace InteractiveObject.UIOverlayObject.Component
         [SerializeField] private TextMeshProUGUI _taskTimerUI;
         [SerializeField] private TextMeshProUGUI _taskPenaltyUI;
         [SerializeField] private TextMeshProUGUI _taskRewardUI;
-        [SerializeField] private Image _taskProgressBarUI;
+        [SerializeField] private Image _taskTimerProgressbarUI;
 
         private TaskData _taskData;
         
@@ -24,6 +24,7 @@ namespace InteractiveObject.UIOverlayObject.Component
             _taskTimerUI.text = FormatTimeToMinutesAndSeconds(_taskData.FullTime);
             _taskPenaltyUI.text = $"-{_taskData.Penalty}";
             _taskRewardUI.text = $"+{_taskData.Reward}";
+            OnRemainingTimeChanged(1f);
         }
 
         /// <summary>
@@ -39,9 +40,14 @@ namespace InteractiveObject.UIOverlayObject.Component
             return $"{minutes:D2}:{seconds:D2}";
         }
 
-        public void SetProgressbarValue(float value)
+        public void OnRemainingTimeChanged(float remainingTime)
         {
-            _taskProgressBarUI.transform.localScale = new Vector3(value, 1f, 1f);
+            var initialScale = _taskTimerProgressbarUI.transform.localScale;
+            
+            _taskTimerProgressbarUI.transform.localScale =
+                new Vector3(remainingTime / _taskData.FullTime, initialScale.y, initialScale.z);
+
+            _taskTimerUI.text = FormatTimeToMinutesAndSeconds(remainingTime);
         }
 
         public void Animate(float currentValue, float maxValue)

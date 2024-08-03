@@ -16,6 +16,7 @@ namespace InteractiveObject.Model
         
         public event Action<float> OnProgressUpdate;
         public event Action<TaskData> OnTaskUpdate;
+        public event Action<float> OnRemainingTimeUpdate;
         
         private float _progressValue;
         
@@ -45,6 +46,19 @@ namespace InteractiveObject.Model
                 _taskData = new TaskData(name, fullTime, reward, penalty);
                 
                 OnTaskUpdate?.Invoke(_taskData);
+            }
+        }
+
+        private float _remainingTime;
+
+        public float RemainingTime
+        {
+            get => _remainingTime;
+            set
+            {
+                _remainingTime = Mathf.Clamp(value, 0f, _taskData.FullTime);
+                
+                OnRemainingTimeUpdate?.Invoke(_remainingTime);
             }
         }
     }

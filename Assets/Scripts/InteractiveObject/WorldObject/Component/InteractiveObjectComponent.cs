@@ -6,7 +6,6 @@ using InteractiveObject.UIOverlayObject.Component;
 using InteractiveObject.WorldObject.Enum;
 using Task.Struct;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace InteractiveObject.WorldObject.Component
@@ -54,6 +53,8 @@ namespace InteractiveObject.WorldObject.Component
         private void Awake()
         {
             SetActive(true);
+
+            SetupForNewTask(new TaskData("Task1", 40f, 100, 100));
         }
 
         [Inject]
@@ -80,7 +81,9 @@ namespace InteractiveObject.WorldObject.Component
         {
             if (!_isActive) return;
 
+            // TODO: change to time interval, not each frame
             CalculateProgressValue();
+            CalculateRemainingTime();
         }
 
         public void SetupForNewTask(TaskData taskData)
@@ -90,9 +93,11 @@ namespace InteractiveObject.WorldObject.Component
             
             // subscribe it to model's events
             _model.OnTaskUpdate += uiOverlayObj.Setup;
-            _model.OnProgressUpdate += uiOverlayObj.SetProgressbarValue;
+            _model.OnRemainingTimeUpdate += uiOverlayObj.OnRemainingTimeChanged;
             
             _model.TaskData = taskData;
+            _model.RemainingTime = taskData.FullTime;
+            
             SetActive(true);
         }
 
@@ -114,6 +119,11 @@ namespace InteractiveObject.WorldObject.Component
                 : _interactingHandler.DecreaseProgress(_model.Progress, _model.ProgressDelta);
 
             CheckIfDone();
+        }
+
+        private void CalculateRemainingTime()
+        {
+            _model.RemainingTime -= Time.deltaTime;
         }
 
         private void CheckIfDone()

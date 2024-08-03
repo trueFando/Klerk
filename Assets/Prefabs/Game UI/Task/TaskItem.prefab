@@ -650,7 +650,7 @@ MonoBehaviour:
   _taskTimerUI: {fileID: 5860357240422569366}
   _taskPenaltyUI: {fileID: 5853251138598334581}
   _taskRewardUI: {fileID: 7697071665509447291}
-  _taskProgressBarUI: {fileID: 124805061039423956}
+  _taskTimerProgressbarUI: {fileID: 124805061039423956}
 --- !u!1 &7295098934424944832
 GameObject:
   m_ObjectHideFlags: 0
