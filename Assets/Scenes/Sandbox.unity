@@ -6252,7 +6252,7 @@ GameObject:
   - component: {fileID: 1590488904}
   - component: {fileID: 1590488903}
   - component: {fileID: 1590488902}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7788,6 +7788,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 5
+  _levelMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _collider: {fileID: 1676191944}
 --- !u!50 &1676191943
 Rigidbody2D:
   serializedVersion: 4
