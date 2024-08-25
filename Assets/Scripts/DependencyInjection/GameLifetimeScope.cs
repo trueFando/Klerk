@@ -2,6 +2,7 @@ using Common.UI;
 using InteractiveObject.Handler;
 using InteractiveObject.Handler.Resolver;
 using Player.Input;
+using Task.TaskCreator.TaskCreatorComponent;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

@@ -52,9 +52,7 @@ namespace InteractiveObject.WorldObject.Component
 
         private void Awake()
         {
-            SetActive(true);
-
-            SetupForNewTask(new TaskData("Task1", 40f, 100, 100));
+            // SetupForNewTask(new TaskData("Task1", 40f, 100, 100));
         }
 
         [Inject]
